@@ -1,4 +1,4 @@
-use std::fs;
+use regex::Regex;
 
 pub struct Config {
     pub filename: String,
@@ -17,6 +17,27 @@ impl Config {
     }
 }
 
-pub fn search(content: String, query: String) -> Result<String, &'static str> {
+pub fn search(content: String, query: String) -> Result<bool, regex::Error> {
+    Ok(Regex::new(query.as_str())?.is_match(content.as_str()))
+}
 
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn test_match_regex() {
+        let content = String::from("@amirreza@");
+        let query = String::from("@.*@");
+        let res = search(content, query);
+        assert_eq!(true, res.is_ok());
+        assert_eq!(true, res.unwrap());
+    }
+    #[test]
+    fn test_regex_creation_failed() {
+        let content = String::from("@amirreza@");
+        let query = String::from("(");
+        let res = search(content, query);
+        assert_eq!(true, res.is_err());
+    }
 }
