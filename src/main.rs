@@ -1,5 +1,5 @@
 use std::env;
-
+use std::fs;
 fn main() {
     let args: Vec<String> = env::args().collect();
     if args.len() < 3 {
@@ -8,6 +8,7 @@ fn main() {
     let name = &args[1];
     let query = &args[2];
 
-    println!("{}", name);
-    println!("{}", query);
+    let content = fs::read_to_string(name).expect("cannot read file");
+
+    println!("{}", content);
 }
