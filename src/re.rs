@@ -16,8 +16,8 @@ impl<'a> Re<'a> {
     pub fn is_match(&self) -> bool {
         self.re.is_match(self.content.as_str())
     }
-    pub fn extract(&self) -> HashMap<String, String> {
-        HashMap::new()
+    pub fn extract(&self) -> Option<regex::Captures> {
+        self.re.captures(self.content)
     }
 }
 
