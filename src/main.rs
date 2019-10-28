@@ -1,7 +1,9 @@
 extern crate regex;
 
-mod lib;
-use lib::Config;
+mod config;
+mod re;
+
+use config::Config;
 use std::fs;
 
 fn main() {
@@ -12,6 +14,4 @@ fn main() {
     let content = fs::read_to_string(&config.filename)
         .expect("cannot read file");
 
-    lib::search(content, config.query)
-    .expect("search failed");
 }
