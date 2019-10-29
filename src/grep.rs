@@ -1,14 +1,14 @@
 use regex::Regex;
 use std::collections::HashMap;
 
-pub struct Re<'a> {
+pub struct Grep<'a> {
     content: &'a String,
     re: Regex,
 }
 
-impl<'a> Re<'a> {
-    pub fn new(content: &'a String, query: &str) -> Result<Re<'a>, regex::Error> {
-        Ok(Re{
+impl<'a> Grep<'a> {
+    pub fn new(content: &'a String, query: &str) -> Result<Grep<'a>, regex::Error> {
+        Ok(Grep {
             content: content,
             re: Regex::new(query)?,
         })
@@ -29,14 +29,14 @@ mod tests {
     #[test]
     fn test_new_re(){
         let content = String::from("@amirreza@");
-        assert_eq!(true, Re::new(&content, "@.*@").is_ok());
-        assert_eq!(true, Re::new(&content, "(").is_err());
+        assert_eq!(true, Grep::new(&content, "@.*@").is_ok());
+        assert_eq!(true, Grep::new(&content, "(").is_err());
     }
 
     #[test]
     fn test_match_regex() {
         let content = String::from("@amirreza@");
-        let re = Re::new(&content, "@.*@").unwrap();
+        let re = Grep::new(&content, "@.*@").unwrap();
         assert_eq!(true, re.is_match());
     }
 }

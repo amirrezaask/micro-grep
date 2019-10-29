@@ -1,11 +1,12 @@
 extern crate regex;
 
 mod config;
-mod re;
+mod grep;
 
 use config::Config;
 use std::fs;
 use std::process::exit;
+use crate::grep::Grep;
 
 fn main() {
     let args: Vec<String> = std::env::args().collect();
@@ -14,9 +15,9 @@ fn main() {
 
     let content = fs::read_to_string(&config.filename)
         .expect("cannot read file");
-    let res = re::Re::new(&content, &config.query);
+    let res = grep::Grep::new(&content, &config.query);
     if res.is_ok() {
-        let re = res.unwrap();
+        let re: Grep = res.unwrap();
         if !re.is_match() {
             println!("Query does not match given content");
             exit(0)
